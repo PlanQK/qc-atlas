@@ -19,23 +19,12 @@
 
 package org.planqk.atlas.web;
 
-import java.util.Map;
-
-import org.planqk.atlas.web.dtos.AlgorithmDto;
 import org.planqk.atlas.web.dtos.ClassicAlgorithmDto;
 import org.planqk.atlas.web.dtos.ClassicImplementationDto;
-import org.planqk.atlas.web.dtos.ImplementationDto;
 import org.planqk.atlas.web.dtos.QuantumAlgorithmDto;
 import org.planqk.atlas.web.dtos.QuantumImplementationDto;
-import org.planqk.atlas.web.utils.EntityModelConverter;
-import org.planqk.atlas.web.utils.LinkRemoverModelConverter;
-import org.planqk.atlas.web.utils.OverrideModelConverter;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Lazy;
 
-import io.swagger.v3.core.converter.ModelConverters;
 import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -46,34 +35,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Configuration
 public class SwaggerConfiguration {
-    @Bean
-    @Lazy(false)
-    public LinkRemoverModelConverter linkRemoverModelConverter() {
-        final var converter = new LinkRemoverModelConverter();
-        ModelConverters.getInstance().addConverter(converter);
-        return converter;
-    }
-
-    @Bean
-    @Lazy(false)
-    @DependsOn("linkRemoverModelConverter")
-    public EntityModelConverter entityModelConverter() {
-        final var converter = new EntityModelConverter();
-        ModelConverters.getInstance().addConverter(converter);
-        return converter;
-    }
-
-    @Bean
-    @Lazy(false)
-    @DependsOn("entityModelConverter")
-    public OverrideModelConverter overrideModelConverter() {
-        final var converter = new OverrideModelConverter(Map.of(
-                AlgorithmDto.class, AlgorithmSchema.class,
-                ImplementationDto.class, ImplementationSchema.class
-        ));
-        ModelConverters.getInstance().addConverter(converter);
-        return converter;
-    }
 
     // The private classes below provide custom schemas for certain types used in our public API.
     // Setting these annotations on the correct types is not always possible, because we could end up with

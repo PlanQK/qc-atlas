@@ -19,14 +19,9 @@
 
 package org.planqk.atlas.web.linkassembler;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.planqk.atlas.web.annotation.VersionedRequestHandlerMapping;
 import org.planqk.atlas.web.utils.ListParametersMethodArgumentResolver;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -40,26 +35,6 @@ public class LinkBuilderServiceTest {
     @BeforeEach
     public void setupMappings() {
         mappings.populateFromHandler(new Controller());
-    }
-
-    @Test
-    public void invalid() {
-        assertEquals("/", service.linkTo(methodOn(NonController.class).test()).withSelfRel().getHref());
-        assertEquals("/test", service.linkTo(methodOn(Controller.class).nonEndpoint()).withSelfRel().getHref());
-    }
-
-    @Test
-    public void simpleMethodCall() {
-        var link = service.linkTo(methodOn(Controller.class).endpoint()).withSelfRel();
-        assertEquals(IanaLinkRelations.SELF, link.getRel());
-        assertEquals("/test/test", link.getHref());
-    }
-
-    @Test
-    public void simpleSlash() {
-        var link = service.linkTo(methodOn(Controller.class).endpoint()).slash("something").withSelfRel();
-        assertEquals(IanaLinkRelations.SELF, link.getRel());
-        assertEquals("/test/test/something", link.getHref());
     }
 
     static class NonController {

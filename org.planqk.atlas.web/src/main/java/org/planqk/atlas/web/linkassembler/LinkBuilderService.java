@@ -98,9 +98,6 @@ public class LinkBuilderService {
      * <p>
      * If that is impossible, the class- and method-annotations are considered.
      */
-    public LinkBuilder linkTo(Object invocationValue) {
-        return new LinkBuilder(urlTo(invocationValue));
-    }
 
     public String urlStringTo(Object invocationValue) {
         return urlTo(invocationValue).toUriString();
